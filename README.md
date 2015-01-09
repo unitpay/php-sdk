@@ -40,3 +40,18 @@ header("Location: " . $redirectUrl);
 
 - Payment through the UnitPay API [`/sample/initPaymentApi.php`](https://github.com/unitpay/php-sdk/blob/master/sample/initPaymentApi.php)
 - Handler sample [`/sample/handler.php`](https://github.com/unitpay/php-sdk/blob/master/sample/handler.php)
+
+## Installation
+
+### Install composer package
+1. Set up `composer.json` in your project directory:
+```
+{
+  "require":{"unitpay/php-sdk":"master"}
+}
+```
+
+2. Run [composer](http://getcomposer.org/doc/00-intro.md#installation):
+```sh
+$ php composer.phar install
+```
