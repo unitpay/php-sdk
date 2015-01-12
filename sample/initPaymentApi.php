@@ -26,7 +26,7 @@ $orderCurrency  = 'RUB';
 $unitPay = new UnitPay($secretKey);
 
 /**
- * Base params: account, desc, sum, currency, projectId, billingCode
+ * Base params: account, desc, sum, currency, projectId, paymentType
  * Additional params:
  *  Qiwi, Mc:
  *      phone
@@ -34,13 +34,13 @@ $unitPay = new UnitPay($secretKey);
  *      clientId
  *
  * @link https://unitpay.ru/doc#initPayment
- * @link https://unitpay.ru/doc#billingCodes
+ * @link https://unitpay.ru/doc#paymentTypes
  */
 $response = $unitPay->api('initPayment', [
     'account' => $orderId,
     'desc' => $orderDesc,
     'sum' => $orderSum,
-    'billingCode' => 'yandex',
+    'paymentType' => 'yandex',
     'currency' => $orderCurrency,
     'projectId' => $projectId
 ]);
