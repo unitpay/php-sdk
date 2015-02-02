@@ -36,8 +36,8 @@ class UnitPay
         '178.132.203.105',
         '127.0.0.1' // for debug
     );
-    private $apiUrl = 'https://unitpay.dev/app_dev.php/api';
-    private $formUrl = 'https://unitpay.dev/app_dev.php/pay/';
+    private $apiUrl = 'https://unitpay.ru/api';
+    private $formUrl = 'https://unitpay.ru/pay/';
     private $secretKey;
 
     public function __construct($secretKey = null)
