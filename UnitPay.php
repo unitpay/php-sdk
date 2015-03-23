@@ -30,7 +30,7 @@ class UnitPay
 {
     private $supportedCurrencies = array('EUR','UAH', 'BYR', 'USD','RUB');
     private $supportedUnitpayMethods = array('initPayment');
-    private $supportedPartnerMethods = array('check', 'pay');
+    private $supportedPartnerMethods = array('check', 'pay', 'error', 'refund');
     private $supportedUnitpayIp = array(
         '31.186.100.49',
         '178.132.203.105',
