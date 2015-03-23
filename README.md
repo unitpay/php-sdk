@@ -160,13 +160,26 @@ try {
         // logging data and throw exception
         throw new InvalidArgumentException('Order validation Error!');
     }
-    // Just check order (check server status, check order in DB and etc)
-    if ('check' == $method) {
-        print $unitPay->getSuccessHandlerResponse('Check Success');
-    // Method Pay means that the money received
-    } elseif ('pay' == $method) {
-        // Please complete order
-        print $unitPay->getSuccessHandlerResponse('Pay Success');
+    switch ($method) {
+        // Just check order (check server status, check order in DB and etc)
+        case 'check':
+            print $unitPay->getSuccessHandlerResponse('Check Success. Ready to pay.');
+            break;
+        // Method Pay means that the money received
+        case 'pay':
+            // Please complete order
+            print $unitPay->getSuccessHandlerResponse('Pay Success');
+            break;
+        // Method Error means that an error has occurred.
+        case 'error':
+            // Please log error text.
+            print $unitPay->getSuccessHandlerResponse('Error logged');
+            break;
+        // Method Refund means that the money returned to the client
+        case 'refund':
+            // Please cancel the order
+            print $unitPay->getSuccessHandlerResponse('Order canceled');
+            break;
     }
 // Oops! Something went wrong.
 } catch (Exception $e) {
