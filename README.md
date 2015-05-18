@@ -175,11 +175,6 @@ try {
             // Please log error text.
             print $unitPay->getSuccessHandlerResponse('Error logged');
             break;
-        // Method Refund means that the money returned to the client
-        case 'refund':
-            // Please cancel the order
-            print $unitPay->getSuccessHandlerResponse('Order canceled');
-            break;
     }
 // Oops! Something went wrong.
 } catch (Exception $e) {
