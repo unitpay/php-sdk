@@ -59,13 +59,13 @@ if (isset($response->result->type)
 } elseif (isset($response->result->type)
     && $response->result->type == 'invoice') {
     // Url on receipt page in Unitpay
-    $statusUrl = $response->result->statusUrl;
+    $receiptUrl = $response->result->receiptUrl;
     // Payment ID in Unitpay (you can save it)
     $paymentId = $response->result->paymentId;
     // Invoice Id in Payment Gate (you can save it)
     $invoiceId = $response->result->invoiceId;
     // User redirect
-    header("Location: " . $statusUrl);
+    header("Location: " . $receiptUrl);
 
 // If error during api request
 } elseif (isset($response->error->message)) {
