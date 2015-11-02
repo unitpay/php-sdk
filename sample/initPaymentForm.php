@@ -3,23 +3,11 @@
 /**
  * Payment form
  *
- * @link https://unitpay.ru/doc#payForm
+ * @link http://help.unitpay.ru/article/31-creating-payment-from-payment-form
  */
 
-include ('../UnitPay.php');
-
-// Project Data
-$secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
-$publicId   = '15155-ae12d';
-
-// My item Info
-$itemName = 'Iphone 6 Skin Cover';
-
-// My Order Data
-$orderId        = 'a183f94-1434-1e44';
-$orderSum       = 900;
-$orderDesc      = 'Payment for item "'.$itemName.'"';
-$orderCurrency  = 'RUB';
+require_once('./orderInfo.php');
+require_once('../UnitPay.php');
 
 $unitPay = new UnitPay($secretKey);
 

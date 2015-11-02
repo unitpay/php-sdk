@@ -5,23 +5,11 @@ header('Content-Type: text/html; charset=UTF-8');
 /**
  * API integration
  *
- * @link https://unitpay.ru/doc#initPayment
+ * @link http://help.unitpay.ru/article/32-creating-payment-via-api
  */
 
-include ('../UnitPay.php');
-
-// Project Data
-$projectId  = 1;
-$secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
-
-// My item Info
-$itemName = 'Iphone 6 Skin Cover';
-
-// My Order Data
-$orderId        = 'a183f94-1434-1e44';
-$orderSum       = 900;
-$orderDesc      = 'Payment for item "'.$itemName.'"';
-$orderCurrency  = 'RUB';
+require_once('./orderInfo.php');
+require_once('../UnitPay.php');
 
 $unitPay = new UnitPay($secretKey);
 
@@ -33,8 +21,8 @@ $unitPay = new UnitPay($secretKey);
  * alfaClick:
  *      clientId
  *
- * @link https://unitpay.ru/doc#initPayment
- * @link https://unitpay.ru/doc#paymentTypes
+ * @link http://help.unitpay.ru/article/32-creating-payment-via-api
+ * @link http://help.unitpay.ru/article/36-codes-payment-systems
  */
 $response = $unitPay->api('initPayment', [
     'account' => $orderId,
@@ -42,7 +30,7 @@ $response = $unitPay->api('initPayment', [
     'sum' => $orderSum,
     'paymentType' => 'yandex',
     'currency' => $orderCurrency,
-    'projectId' => $projectId
+    'projectId' => $projectId,
 ]);
 
 // If need user redirect on Payment Gate

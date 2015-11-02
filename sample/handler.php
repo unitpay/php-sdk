@@ -3,22 +3,11 @@
 /**
  *  Demo handler for your projects
  *
- * @link https://unitpay.ru/doc#confirmPayment
+ * @link http://help.unitpay.ru/article/35-confirmation-payment
  */
-include ('../UnitPay.php');
 
-// Project Data
-$projectId  = 1;
-$secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
-
-// My item Info
-$itemName = 'Iphone 6 Skin Cover';
-
-// My Order Data
-$orderId        = 'a183f94-1434-1e44';
-$orderSum       = 900;
-$orderDesc      = 'Payment for item "'.$itemName.'"';
-$orderCurrency  = 'RUB';
+require_once('./orderInfo.php');
+require_once('../UnitPay.php');
 
 $unitPay = new UnitPay($secretKey);
 

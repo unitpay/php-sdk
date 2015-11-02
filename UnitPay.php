@@ -29,7 +29,11 @@
 class UnitPay
 {
     private $supportedCurrencies = array('EUR','UAH', 'BYR', 'USD','RUB');
-    private $supportedUnitpayMethods = array('initPayment');
+    private $supportedUnitpayMethods = array('initPayment', 'getPayment');
+    private $requiredUnitpayMethodsParams = array(
+        'initPayment' => array('desc', 'account', 'sum'),
+        'getPayment' => array('paymentId')
+    );
     private $supportedPartnerMethods = array('check', 'pay', 'error');
     private $supportedUnitpayIp = array(
         '31.186.100.49',
@@ -104,22 +108,16 @@ class UnitPay
         if (!in_array($method, $this->supportedUnitpayMethods)) {
             throw new UnexpectedValueException('Method is not supported');
         }
-        if (!isset($params['sum'])) {
-            throw new InvalidArgumentException('Sum is null');
+        if (isset($this->requiredUnitpayMethodsParams[$method])) {
+            foreach ($this->requiredUnitpayMethodsParams[$method] as $rParam) {
+                if (!isset($params[$rParam])) {
+                    throw new InvalidArgumentException('Param '.$rParam.' is null');
+                }
+            }
         }
-        if (!isset($params['account'])) {
-            throw new InvalidArgumentException('Account is null');
-        }
-        if (!isset($params['desc'])) {
-            throw new InvalidArgumentException('Desc is null');
-        }
-        if (!isset($params['secretKey'])) {
+        $params['secretKey'] = $this->secretKey;
+        if (empty($params['secretKey'])) {
             throw new InvalidArgumentException('SecretKey is null');
-        }
-        if (isset($params['currency']) && !in_array($params['currency'], $this->supportedCurrencies)) {
-            throw new UnexpectedValueException('Currency is not supported');
-        } else {
-            $params['currency'] = null;
         }
 
         $requestUrl = $this->apiUrl.'?'.http_build_query([
