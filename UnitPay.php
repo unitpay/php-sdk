@@ -113,20 +113,15 @@ class UnitPay
         if (!isset($params['desc'])) {
             throw new InvalidArgumentException('Desc is null');
         }
+        if (!isset($params['secretKey'])) {
+            throw new InvalidArgumentException('SecretKey is null');
+        }
         if (isset($params['currency']) && !in_array($params['currency'], $this->supportedCurrencies)) {
             throw new UnexpectedValueException('Currency is not supported');
         } else {
             $params['currency'] = null;
         }
 
-        if ($this->secretKey) {
-            $params['sign'] = $this->getMd5sign([
-                'account' => $params['account'],
-                'currency' => $params['currency'],
-                'desc' => $params['desc'],
-                'sum' => $params['sum'],
-            ]);
-        }
         $requestUrl = $this->apiUrl.'?'.http_build_query([
             'method' => $method,
             'params' => $params
