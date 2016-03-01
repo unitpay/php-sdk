@@ -38,6 +38,8 @@ class UnitPay
     private $supportedUnitpayIp = array(
         '31.186.100.49',
         '178.132.203.105',
+        '52.29.152.23',
+        '52.19.56.234',
         '127.0.0.1' // for debug
     );
     private $apiUrl = 'https://unitpay.ru/api';
