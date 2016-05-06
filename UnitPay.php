@@ -67,6 +67,16 @@ class UnitPay
     }
 
     /**
+     * Return IP address
+     *
+     * @return string
+     */
+    protected function getIp()
+    {
+        return $_SERVER['REMOTE_ADDR'];
+    }
+
+    /**
      * Get URL for pay through the form
      *
      * @param $publicKey
@@ -145,7 +155,7 @@ class UnitPay
      */
     public function checkHandlerRequest()
     {
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = $this->getIp();
         if (!isset($_GET['method'])) {
             throw new InvalidArgumentException('Method is null');
         }
