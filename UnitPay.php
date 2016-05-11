@@ -67,6 +67,24 @@ class UnitPay
     }
 
     /**
+     * Create SHA-256 digital signature
+     *
+     * @param $method
+     * @param array $params
+     *
+     * @return string
+     */
+    function getSha256SignatureByMethodAndParams($method, array $params)
+    {
+        $delimiter = '{up}';
+        ksort($params);
+        unset($params['sign']);
+        unset($params['signature']);
+
+        return hash('sha256', $method.$delimiter.join($delimiter, $params).$delimiter.$this->secretKey);
+    }
+
+    /**
      * Get URL for pay through the form
      *
      * @param $publicKey
@@ -158,7 +176,7 @@ class UnitPay
             throw new UnexpectedValueException('Method is not supported');
         }
 
-        if ($params['sign'] != $this->getMd5sign($params)) {
+        if ($params['signature'] != $this->getSha256SignatureByMethodAndParams($method, $params)) {
             throw new InvalidArgumentException('Wrong signature');
         }
 
