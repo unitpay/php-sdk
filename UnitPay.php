@@ -170,7 +170,7 @@ class UnitPay
 
         /**
          * IP address check
-         * @link https://unitpay.ru/doc#overview
+         * @link http://help.unitpay.ru/article/67-ip-addresses
          */
         if (!in_array($ip, $this->supportedUnitpayIp)) {
             throw new InvalidArgumentException('IP address Error');
