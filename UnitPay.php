@@ -59,9 +59,8 @@ class UnitPay
      *
      * @return string
      */
-    function getSha256Signature(array $params, $method = null)
+    function getSignature(array $params, $method = null)
     {
-        $delimiter = '{up}';
         ksort($params);
         unset($params['sign']);
         unset($params['signature']);
@@ -70,7 +69,7 @@ class UnitPay
             array_unshift($params, $method);
         }
 
-        return hash('sha256', join($delimiter, $params));
+        return hash('sha256', join('{up}', $params));
     }
 
     /**
@@ -94,7 +93,7 @@ class UnitPay
             'sum' => $sum,
         ];
         if ($this->secretKey) {
-            $params['signature'] = $this->getSha256Signature($params);
+            $params['signature'] = $this->getSignature($params);
         }
         $params['locale'] = $locale;
 
@@ -165,7 +164,7 @@ class UnitPay
             throw new UnexpectedValueException('Method is not supported');
         }
 
-        if ($params['signature'] != $this->getSha256Signature($params, $method)) {
+        if ($params['signature'] != $this->getSignature($params, $method)) {
             throw new InvalidArgumentException('Wrong signature');
         }
 
