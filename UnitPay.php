@@ -52,36 +52,25 @@ class UnitPay
     }
 
     /**
-     * Create digital signature
-     *
-     * @param array $params
-     *
-     * @return string
-     */
-    private function getMd5sign($params)
-    {
-        ksort($params);
-        unset($params['sign']);
-
-        return md5(join(null, $params).$this->secretKey);
-    }
-
-    /**
      * Create SHA-256 digital signature
      *
-     * @param $method
      * @param array $params
+     * @param $method
      *
      * @return string
      */
-    function getSha256SignatureByMethodAndParams($method, array $params)
+    function getSha256Signature(array $params, $method = null)
     {
         $delimiter = '{up}';
         ksort($params);
         unset($params['sign']);
         unset($params['signature']);
+        array_push($params, $this->secretKey);
+        if ($method) {
+            array_unshift($params, $method);
+        }
 
-        return hash('sha256', $method.$delimiter.join($delimiter, $params).$delimiter.$this->secretKey);
+        return hash('sha256', join($delimiter, $params));
     }
 
     /**
@@ -105,7 +94,7 @@ class UnitPay
             'sum' => $sum,
         ];
         if ($this->secretKey) {
-            $params['sign'] = $this->getMd5sign($params);
+            $params['signature'] = $this->getSha256Signature($params);
         }
         $params['locale'] = $locale;
 
@@ -176,7 +165,7 @@ class UnitPay
             throw new UnexpectedValueException('Method is not supported');
         }
 
-        if ($params['signature'] != $this->getSha256SignatureByMethodAndParams($method, $params)) {
+        if ($params['signature'] != $this->getSha256Signature($params, $method)) {
             throw new InvalidArgumentException('Wrong signature');
         }
 
