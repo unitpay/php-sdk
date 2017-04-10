@@ -164,7 +164,7 @@ class UnitPay
             throw new UnexpectedValueException('Method is not supported');
         }
 
-        if ($params['signature'] != $this->getSignature($params, $method)) {
+        if (!isset($params['signature']) || $params['signature'] != $this->getSignature($params, $method)) {
             throw new InvalidArgumentException('Wrong signature');
         }
 
