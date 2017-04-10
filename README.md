@@ -188,7 +188,7 @@ try {
 Set up `composer.json` in your project directory:
 ```
 {
-  "require":{"unitpay/php-sdk":"master"}
+  "require":{"unitpay/php-sdk":"dev-master"}
 }
 ```
 
