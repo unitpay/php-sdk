@@ -21,6 +21,55 @@
  *
  */
 
+
+/**
+ * Value object for paid goods
+ */
+class CashItem
+{
+    private $name;
+
+    private $count;
+
+    private $price;
+
+    /**
+     * @param string $name
+     * @param int $count
+     * @param float $price
+     */
+    public function __construct($name, $count, $price)
+    {
+        $this->name  = $name;
+        $this->count = $count;
+        $this->price = $price;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+}
+
 /**
  * Payment method UnitPay process
  *
@@ -42,9 +91,13 @@ class UnitPay
         '52.19.56.234',
         '127.0.0.1' // for debug
     );
-    private $apiUrl = 'https://unitpay.ru/api';
-    private $formUrl = 'https://unitpay.ru/pay/';
+
     private $secretKey;
+
+    private $params;
+
+    const API_URL  = 'https://unitpay.ru/api';
+    const FORM_URL = 'https://unitpay.ru/pay/';
 
     public function __construct($secretKey = null)
     {
@@ -65,6 +118,7 @@ class UnitPay
         unset($params['sign']);
         unset($params['signature']);
         array_push($params, $this->secretKey);
+
         if ($method) {
             array_unshift($params, $method);
         }
@@ -85,10 +139,10 @@ class UnitPay
     /**
      * Get URL for pay through the form
      *
-     * @param $publicKey
-     * @param $sum
-     * @param $account
-     * @param $desc
+     * @param string $publicKey
+     * @param string|float|int $sum
+     * @param string $account
+     * @param string $desc
      * @param string $currency
      * @param string $locale
      *
@@ -96,18 +150,83 @@ class UnitPay
      */
     public function form($publicKey, $sum, $account, $desc, $currency = 'RUB', $locale = 'ru')
     {
-        $params = [
-            'account' => $account,
+        $vitalParams = array(
+            'account'  => $account,
             'currency' => $currency,
-            'desc' => $desc,
-            'sum' => $sum,
-        ];
-        if ($this->secretKey) {
-            $params['signature'] = $this->getSignature($params);
-        }
-        $params['locale'] = $locale;
+            'desc'     => $desc,
+            'sum'      => $sum
+        );
 
-        return $this->formUrl.$publicKey.'?'.http_build_query($params);
+        $this->params = array_merge($this->params, $vitalParams);
+
+        if ($this->secretKey) {
+            $this->params['signature'] = $this->getSignature($vitalParams);
+        }
+
+        $this->params['locale'] = $locale;
+
+        return self::FORM_URL . $publicKey . '?' . http_build_query($this->params);
+    }
+
+    /**
+     * Set customer email
+     *
+     * @param string $email
+     *
+     * @return UnitPay
+     */
+    public function setCustomerEmail($email)
+    {
+        $this->params['customerEmail'] = $email;
+        return $this;
+    }
+
+    /**
+     * Set customer phone number
+     *
+     * @param string $phone
+     *
+     * @return UnitPay
+     */
+    public function setCustomerPhone($phone)
+    {
+        $this->params['customerPhone'] = $phone;
+        return $this;
+    }
+
+    /**
+     * Set list of paid goods
+     *
+     * @param CashItem[] $items
+     *
+     * @return UnitPay
+     */
+    public function setCashItems($items)
+    {
+        $this->params['cashItems'] = base64_encode(
+            json_encode(
+                array_map(function ($item) {
+                    /** @var CashItem $item */
+                    return array(
+                        'name'  => $item->getName(),
+                        'count' => $item->getCount(),
+                        'price' => $item->getPrice()
+                    );
+                }, $items)));
+
+        return $this;
+    }
+
+    /**
+     * Set callback URL
+     *
+     * @param string $backUrl
+     * @return UnitPay
+     */
+    public function setBackUrl($backUrl)
+    {
+        $this->params['backUrl'] = $backUrl;
+        return $this;
     }
 
     /**
@@ -126,6 +245,7 @@ class UnitPay
         if (!in_array($method, $this->supportedUnitpayMethods)) {
             throw new UnexpectedValueException('Method is not supported');
         }
+
         if (isset($this->requiredUnitpayMethodsParams[$method])) {
             foreach ($this->requiredUnitpayMethodsParams[$method] as $rParam) {
                 if (!isset($params[$rParam])) {
@@ -133,12 +253,13 @@ class UnitPay
                 }
             }
         }
+
         $params['secretKey'] = $this->secretKey;
         if (empty($params['secretKey'])) {
             throw new InvalidArgumentException('SecretKey is null');
         }
 
-        $requestUrl = $this->apiUrl.'?'.http_build_query([
+        $requestUrl = self::API_URL . '?' . http_build_query([
             'method' => $method,
             'params' => $params
         ], null, '&', PHP_QUERY_RFC3986);
@@ -165,9 +286,11 @@ class UnitPay
         if (!isset($_GET['method'])) {
             throw new InvalidArgumentException('Method is null');
         }
+
         if (!isset($_GET['params'])) {
             throw new InvalidArgumentException('Params is null');
         }
+
         list($method, $params) = array($_GET['method'], $_GET['params']);
 
         if (!in_array($method, $this->supportedPartnerMethods)) {

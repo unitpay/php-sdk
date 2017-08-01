@@ -21,10 +21,18 @@ $itemName = 'Iphone 6 Skin Cover';
 // My Order Data
 $orderId        = 'a183f94-1434-1e44';
 $orderSum       = 900;
-$orderDesc      = 'Payment for item "'.$itemName.'"';
+$orderDesc      = 'Payment for item "' . $itemName . '"';
 $orderCurrency  = 'RUB';
 
 $unitPay = new UnitPay($secretKey);
+
+$unitPay
+    ->setBackUrl('http://domain.com')
+    ->setCustomerEmail('customer@domain.com')
+    ->setCustomerPhone('79001235555')
+    ->setCashItems(array(
+       new CashItem($itemName, 1, $orderSum) 
+    ));
 
 $redirectUrl = $unitPay->form(
     $publicId,
@@ -35,7 +43,6 @@ $redirectUrl = $unitPay->form(
 );
 
 header("Location: " . $redirectUrl);
-?>
 ```
 
 ### Payment integration using UnitPay Api
@@ -80,12 +87,12 @@ $unitPay = new UnitPay($secretKey);
  * @link https://unitpay.ru/doc#paymentTypes
  */
 $response = $unitPay->api('initPayment', [
-    'account' => $orderId,
-    'desc' => $orderDesc,
-    'sum' => $orderSum,
+    'account'     => $orderId,
+    'desc'        => $orderDesc,
+    'sum'         => $orderSum,
     'paymentType' => 'yandex',
-    'currency' => $orderCurrency,
-    'projectId' => $projectId
+    'currency'    => $orderCurrency,
+    'projectId'   => $projectId
 ]);
 
 // If need user redirect on Payment Gate
@@ -139,7 +146,7 @@ $itemName = 'Iphone 6 Skin Cover';
 // My Order Data
 $orderId        = 'a183f94-1434-1e44';
 $orderSum       = 900;
-$orderDesc      = 'Payment for item "'.$itemName.'"';
+$orderDesc      = 'Payment for item "' . $itemName . '"';
 $orderCurrency  = 'RUB';
 
 $unitPay = new UnitPay($secretKey);
@@ -163,22 +170,22 @@ try {
     switch ($method) {
         // Just check order (check server status, check order in DB and etc)
         case 'check':
-            print $unitPay->getSuccessHandlerResponse('Check Success. Ready to pay.');
+            echo $unitPay->getSuccessHandlerResponse('Check Success. Ready to pay.');
             break;
         // Method Pay means that the money received
         case 'pay':
             // Please complete order
-            print $unitPay->getSuccessHandlerResponse('Pay Success');
+            echo $unitPay->getSuccessHandlerResponse('Pay Success');
             break;
         // Method Error means that an error has occurred.
         case 'error':
             // Please log error text.
-            print $unitPay->getSuccessHandlerResponse('Error logged');
+            echo $unitPay->getSuccessHandlerResponse('Error logged');
             break;
     }
 // Oops! Something went wrong.
 } catch (Exception $e) {
-    print $unitPay->getErrorHandlerResponse($e->getMessage());
+    echo $unitPay->getErrorHandlerResponse($e->getMessage());
 }
 ```
 
