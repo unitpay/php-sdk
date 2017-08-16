@@ -94,7 +94,7 @@ class UnitPay
 
     private $secretKey;
 
-    private $params;
+    private $params = array();
 
     const API_URL  = 'https://unitpay.ru/api';
     const FORM_URL = 'https://unitpay.ru/pay/';
