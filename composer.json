@@ -4,8 +4,7 @@
   "description": "PHP SDK for UnitPay",
   "keywords": ["unitpay","pay"],
   "homepage": "https://github.com/unitpay/php-sdk",
-  "version":"1.0.0",
-  "license": "OSL 3.0",
+  "license": "MIT",
   "authors": [
     {
       "name": "unitpay",
