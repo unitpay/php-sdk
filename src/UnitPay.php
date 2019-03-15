@@ -21,6 +21,8 @@
  *
  */
 
+namespace unitpay;
+
 /**
  * Payment method UnitPay process
  *

@@ -21,6 +21,8 @@
  *
  */
 
+namespace unitpay;
+
 /**
  * Value object for paid goods
  */
