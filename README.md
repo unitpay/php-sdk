@@ -1,15 +1,35 @@
 # UnitPay PHP-SDK
-Php sdk for [UnitPay ](https://unitpay.ru) 
+Php sdk for [UnitPay](https://unitpay.ru) 
  
 Documentation https://unitpay.ru/doc
 
-## Examples ##
-These are just some quick examples. Check out the samples in [`/sample`](https://github.com/unitpay/php-sdk/blob/master/sample).
+## Installation
+
+The preferred way to install this extension is through [composer](https://getcomposer.org/download/).
+
+Either run
+
+```bash
+$ php composer.phar require unitpay/php-sdk
+```
+
+or add
+
+```
+"unitpay/php-sdk": "^1.0"
+```
+
+to the ```require``` section of your `composer.json` file.
+
+
+## Examples
+
+These are just some quick examples. Check out the samples in [`/examples`](https://github.com/unitpay/php-sdk/blob/master/examples).
 
 ### Payment integration using UnitPay Form
 ```php
 <?php
-include ('../UnitPay.php');
+require_once('vendor/autoload.php');
 
 // Project Data
 $secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
@@ -24,14 +44,14 @@ $orderSum       = 900;
 $orderDesc      = 'Payment for item "' . $itemName . '"';
 $orderCurrency  = 'RUB';
 
-$unitPay = new UnitPay($secretKey);
+$unitPay = new unitpay\UnitPay($secretKey);
 
 $unitPay
     ->setBackUrl('http://domain.com')
     ->setCustomerEmail('customer@domain.com')
     ->setCustomerPhone('79001235555')
     ->setCashItems(array(
-       new CashItem($itemName, 1, $orderSum) 
+       new unitpay\CashItem($itemName, 1, $orderSum) 
     ));
 
 $redirectUrl = $unitPay->form(
@@ -58,7 +78,7 @@ header('Content-Type: text/html; charset=UTF-8');
  * @link https://unitpay.ru/doc#initPayment
  */
 
-include ('../UnitPay.php');
+require_once('vendor/autoload.php');
 
 // Project Data
 $projectId  = 1;
@@ -73,7 +93,7 @@ $orderSum       = 900;
 $orderDesc      = 'Payment for item "'.$itemName.'"';
 $orderCurrency  = 'RUB';
 
-$unitPay = new UnitPay($secretKey);
+$unitPay = new unitpay\UnitPay($secretKey);
 
 /**
  * Base params: account, desc, sum, currency, projectId, paymentType
@@ -134,7 +154,7 @@ if (isset($response->result->type)
  *
  * @link https://unitpay.ru/doc#confirmPayment
  */
-include ('../UnitPay.php');
+include ('vendor/autoload.php');
 
 // Project Data
 $projectId  = 1;
@@ -149,7 +169,7 @@ $orderSum       = 900;
 $orderDesc      = 'Payment for item "' . $itemName . '"';
 $orderCurrency  = 'RUB';
 
-$unitPay = new UnitPay($secretKey);
+$unitPay = new unitpay\UnitPay($secretKey);
 
 try {
     // Validate request (check ip address, signature and etc)
@@ -189,25 +209,6 @@ try {
 }
 ```
 
-## Installation
-
-### Install composer package
-Set up `composer.json` in your project directory:
-```
-{
-  "require":{"unitpay/php-sdk":"dev-master"}
-}
-```
-
-Run [composer](http://getcomposer.org/doc/00-intro.md#installation):
-```sh
-$ php composer.phar install
-```
-
-### Direct download
-
-Download [last version ](https://github.com/unitpay/php-sdk/archive/master.zip) , unzip and copy to your project folder.
-
-## Contributing ##
+## Contributing
 
 Please feel free to contribute to this project! Pull requests and feature requests welcome!
