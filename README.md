@@ -1,7 +1,7 @@
 # UnitPay PHP-SDK
 Php sdk for [UnitPay ](https://unitpay.ru) 
  
-Documentation https://unitpay.ru/doc
+Documentation https://help.unitpay.ru
 
 ## Examples ##
 These are just some quick examples. Check out the samples in [`/sample`](https://github.com/unitpay/php-sdk/blob/master/sample).
