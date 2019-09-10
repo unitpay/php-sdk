@@ -7,9 +7,9 @@
  */
 
 require_once('./orderInfo.php');
-require_once('../UnitPay.php');
+require_once('../vendor/autoload.php');
 
-$unitPay = new UnitPay($secretKey);
+$unitPay = new unitpay\UnitPay($secretKey);
 
 try {
     // Validate request (check ip address, signature and etc)
