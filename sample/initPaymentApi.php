@@ -12,7 +12,7 @@ header('Content-Type: text/html; charset=UTF-8');
 require_once('./orderInfo.php');
 require_once('../UnitPay.php');
 
-$unitPay = new UnitPay($secretKey);
+$unitPay = new UnitPay($domain, $secretKey);
 
 /**
  * Base params: account, desc, sum, currency, projectId, paymentType

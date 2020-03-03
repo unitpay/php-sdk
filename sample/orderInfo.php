@@ -5,6 +5,7 @@
  */
 
 // Project Data
+$domain     = 'unitpay.money';
 $projectId  = 1;
 $secretKey  = '2907b9e4a48d9450b6f125b8f184be8a';
 $publicId   = '15155-ae12d';
