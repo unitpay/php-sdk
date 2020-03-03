@@ -17,8 +17,6 @@
  *
  * EXTENSION INFORMATION
  *
- * UNITPAY API       https://unitpay.ru/doc
- *
  */
 
 
@@ -96,12 +94,14 @@ class UnitPay
 
     private $params = array();
 
-    const API_URL  = 'https://unitpay.ru/api';
-    const FORM_URL = 'https://unitpay.ru/pay/';
+    private $apiUrl;
+    private $formUrl;
 
-    public function __construct($secretKey = null)
+    public function __construct($domain, $secretKey = null)
     {
         $this->secretKey = $secretKey;
+        $this->apiUrl = "https://$domain/api";
+        $this->formUrl = "https://$domain/pay/";
     }
 
     /**
@@ -165,7 +165,7 @@ class UnitPay
 
         $this->params['locale'] = $locale;
 
-        return self::FORM_URL . $publicKey . '?' . http_build_query($this->params);
+        return $this->formUrl . $publicKey . '?' . http_build_query($this->params);
     }
 
     /**
@@ -259,7 +259,7 @@ class UnitPay
             throw new InvalidArgumentException('SecretKey is null');
         }
 
-        $requestUrl = self::API_URL . '?' . http_build_query([
+        $requestUrl = $this->apiUrl . '?' . http_build_query([
             'method' => $method,
             'params' => $params
         ], null, '&', PHP_QUERY_RFC3986);
@@ -304,6 +304,7 @@ class UnitPay
         /**
          * IP address check
          * @link http://help.unitpay.ru/article/67-ip-addresses
+         * @link http://help.unitpay.money/article/67-ip-addresses
          */
         if (!in_array($ip, $this->supportedUnitpayIp)) {
             throw new InvalidArgumentException('IP address Error');
