@@ -1,7 +1,7 @@
 # UnitPay PHP-SDK
-Php sdk for [UnitPay ](https://unitpay.ru) 
+Php sdk for [UnitPay.ru ](https://unitpay.ru) and [UnitPay.money ](https://unitpay.money)
  
-Documentation https://help.unitpay.ru
+Documentation https://help.unitpay.ru and https://help.unitpay.money
 
 ## Examples ##
 These are just some quick examples. Check out the samples in [`/sample`](https://github.com/unitpay/php-sdk/blob/master/sample).
@@ -12,6 +12,7 @@ These are just some quick examples. Check out the samples in [`/sample`](https:/
 include ('../UnitPay.php');
 
 // Project Data
+$domain = 'unitpay.money'; // Your working domain: unitpay.money or unitpay.ru
 $secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
 $publicId   = '15155-ae12d';
 
@@ -24,7 +25,7 @@ $orderSum       = 900;
 $orderDesc      = 'Payment for item "' . $itemName . '"';
 $orderCurrency  = 'RUB';
 
-$unitPay = new UnitPay($secretKey);
+$unitPay = new UnitPay($domain, $secretKey);
 
 $unitPay
     ->setBackUrl('http://domain.com')
@@ -55,12 +56,14 @@ header('Content-Type: text/html; charset=UTF-8');
 /**
  * API integration
  *
- * @link https://unitpay.ru/doc#initPayment
+ * @link https://help.unitpay.ru/article/32-creating-payment-via-api
+ * @link https://help.unitpay.money/article/32-creating-payment-via-api
  */
 
 include ('../UnitPay.php');
 
 // Project Data
+$domain = 'unitpay.money'; // Your working domain: unitpay.money or unitpay.ru
 $projectId  = 1;
 $secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
 
@@ -73,7 +76,7 @@ $orderSum       = 900;
 $orderDesc      = 'Payment for item "'.$itemName.'"';
 $orderCurrency  = 'RUB';
 
-$unitPay = new UnitPay($secretKey);
+$unitPay = new UnitPay($domain, $secretKey);
 
 /**
  * Base params: account, desc, sum, currency, projectId, paymentType
@@ -83,8 +86,8 @@ $unitPay = new UnitPay($secretKey);
  * alfaClick:
  *      clientId
  *
- * @link https://unitpay.ru/doc#initPayment
- * @link https://unitpay.ru/doc#paymentTypes
+ * @link https://help.unitpay.ru/article/32-creating-payment-via-api
+ * @link https://help.unitpay.money/article/32-creating-payment-via-api
  */
 $response = $unitPay->api('initPayment', [
     'account'     => $orderId,
@@ -132,11 +135,11 @@ if (isset($response->result->type)
 /**
  *  Demo handler for your projects
  *
- * @link https://unitpay.ru/doc#confirmPayment
  */
 include ('../UnitPay.php');
 
 // Project Data
+$domain = 'unitpay.money'; // Your working domain: unitpay.money or unitpay.ru
 $projectId  = 1;
 $secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
 
@@ -149,7 +152,7 @@ $orderSum       = 900;
 $orderDesc      = 'Payment for item "' . $itemName . '"';
 $orderCurrency  = 'RUB';
 
-$unitPay = new UnitPay($secretKey);
+$unitPay = new UnitPay($domain, $secretKey);
 
 try {
     // Validate request (check ip address, signature and etc)

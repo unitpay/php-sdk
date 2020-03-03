@@ -6,6 +6,7 @@ header('Content-Type: text/html; charset=UTF-8');
  * API integration
  *
  * @link http://help.unitpay.ru/article/32-creating-payment-via-api
+ * @link http://help.unitpay.money/article/32-creating-payment-via-api
  */
 
 require_once('./orderInfo.php');
@@ -23,6 +24,9 @@ $unitPay = new UnitPay($secretKey);
  *
  * @link http://help.unitpay.ru/article/32-creating-payment-via-api
  * @link http://help.unitpay.ru/article/36-codes-payment-systems
+ *
+ * @link http://help.unitpay.money/article/32-creating-payment-via-api
+ * @link http://help.unitpay.money/article/36-codes-payment-systems
  */
 $response = $unitPay->api('initPayment', [
     'account' => $orderId,
