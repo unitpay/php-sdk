@@ -192,6 +192,71 @@ try {
 }
 ```
 
+### Mass payment (withdraw) integration using UnitPay API
+
+```php
+<?php
+header('Content-Type: text/html; charset=UTF-8');
+
+/**
+ * Mass payment integration
+ *
+ * @link https://help.unitpay.ru/article/62-masspayment
+ * @link https://help.unitpay.money/article/62-masspayment
+ */
+
+include ('../UnitPay.php');
+
+// Project Data
+$domain = 'unitpay.money'; // Your working domain: unitpay.money or unitpay.ru
+$projectId  = 1;
+$partnerSecretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1'; // Available in profile settings
+$login = 'mail@example.com';
+$transactionId = sha1($login . $projectId . time());
+
+// Payment info
+$orderSum       = 900;
+$purse          = '+79000000000';
+$paymentType    = 'mc';
+$orderDesc      = 'Payment for item "'.$itemName.'"';
+$orderCurrency  = 'RUB';
+
+$unitPay = new UnitPay($domain, $partnerSecretKey);
+
+/**
+ * Base params: account, desc, sum, currency, projectId, paymentType
+ * Additional params:
+ *  Qiwi, Mc:
+ *      phone
+ * alfaClick:
+ *      clientId
+ *
+ * @link https://help.unitpay.ru/article/32-creating-payment-via-api
+ * @link https://help.unitpay.money/article/32-creating-payment-via-api
+ */
+$response = $unitPay->api('massPayment', [
+    'sum' => $orderSum,
+    'purse' => $purse,
+    'login' => $login,
+    'transactionId' => $transactionId,
+    'paymentType' => $paymentType,
+    'projectId' => $projectId,
+]);
+
+// If need user redirect on Payment Gate
+if (isset($response->result)) {
+    // success result
+    $statusResponse = $unitpay->api('massPaymentStatus', [
+        'login' => $login,
+        'transactionId' => $transactionId
+    ]);
+    echo 'Mass payment status: ' . $statusResponse->result->status;
+} elseif (isset($response->error->message)) {
+    $error = $response->error->message;
+    print 'Error: '.$error;
+}
+```
+
 ## Installation
 
 ### Install composer package
