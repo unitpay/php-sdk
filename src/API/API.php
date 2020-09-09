@@ -127,7 +127,22 @@ class API
             ], "", '&', PHP_QUERY_RFC3986)
         );
 
-        $response = json_decode(file_get_contents($requestUrl), false);
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL            => $requestUrl,
+            CURLOPT_HEADER         => false,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_TIMEOUT        => 30,
+            CURLOPT_SSL_VERIFYPEER => 30,
+            CURLOPT_RETURNTRANSFER => true,
+        ]);
+
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+
+        $response = json_decode($response, false);
+
         if (!is_object($response)) {
             throw new InvalidArgumentException('Temporary server error. Please try again later.');
         }

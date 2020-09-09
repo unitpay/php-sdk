@@ -15,7 +15,8 @@
   ],
   "require":{
     "php":">=7.1.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-curl": "*"
   },
   "autoload":{
     "psr-4": {
