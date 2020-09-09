@@ -37,14 +37,24 @@ class API
     private $personalSecret;
 
     private static $supportedMethod = [
-        'initPayment', 'getPayment', // payments
-
-        'getPartner', // cabinet
+        'initPayment', 'getPayment', 'refundPayment',
+        'listSubscriptions', 'getSubscription', 'closeSubscription',
+        'massPayment', 'massPaymentStatus', 'getBinInfo',
+        'getPartner', 'getCommissions',
     ];
 
     private $requiredUnitpayMethodsParams = [
-        'initPayment' => ['desc', 'account', 'sum'],
-        'getPayment'  => ['paymentId'],
+        'initPayment'        => ['account', 'sum', 'desc', 'paymentType', 'projectId'],
+        'getPayment'         => ['paymentId'],
+        'refundPayment'      => ['paymentId'],
+        'massPayment'        => ['login', 'purse', 'transactionId', 'sum', 'paymentType'],
+        'massPaymentStatus'  => ['login', 'transactionId'],
+        'getBinInfo'         => ['login', 'bin'],
+        'listSubscriptions ' => ['projectId'],
+        'getSubscription'    => ['subscriptionId'],
+        'closeSubscription'  => ['subscriptionId'],
+        'getPartner'         => ['login'],
+        'getCommissions'     => ['projectId', 'login'],
     ];
 
     public function __construct(string $apiUrl, string $secretKey, ?string $personalSecret = null)
