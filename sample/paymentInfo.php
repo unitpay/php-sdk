@@ -1,6 +1,6 @@
 <?php
 
-header('Content-Type: text/html; charset=UTF-8');
+use UnitPay\UnitPay;
 
 /**
  * Payment info
@@ -10,12 +10,12 @@ header('Content-Type: text/html; charset=UTF-8');
  */
 
 require_once('./orderInfo.php');
-require_once('../UnitPay.php');
+require_once('../vendor/autoload.php');
 
 $unitPay = new UnitPay($domain, $secretKey);
 
 $response = $unitPay->api('getPayment', [
-    'paymentId' => 3403575
+    'paymentId' => 3403575,
 ]);
 
 // If need user redirect on Payment Gate
