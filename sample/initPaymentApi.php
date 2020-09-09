@@ -1,5 +1,7 @@
 <?php
 
+use UnitPay\UnitPay;
+
 header('Content-Type: text/html; charset=UTF-8');
 
 /**
@@ -10,7 +12,7 @@ header('Content-Type: text/html; charset=UTF-8');
  */
 
 require_once('./orderInfo.php');
-require_once('../UnitPay.php');
+require_once('../vendor/autoload.php');
 
 $unitPay = new UnitPay($domain, $secretKey);
 
@@ -29,27 +31,27 @@ $unitPay = new UnitPay($domain, $secretKey);
  * @link http://help.unitpay.money/article/36-codes-payment-systems
  */
 $response = $unitPay->api('initPayment', [
-    'account' => $orderId,
-    'desc' => $orderDesc,
-    'sum' => $orderSum,
+    'account'     => $orderId,
+    'desc'        => $orderDesc,
+    'sum'         => $orderSum,
     'paymentType' => 'yandex',
-    'currency' => $orderCurrency,
-    'projectId' => $projectId,
+    'currency'    => $orderCurrency,
+    'projectId'   => $projectId,
 ]);
 
 // If need user redirect on Payment Gate
 if (isset($response->result->type)
-    && $response->result->type == 'redirect') {
+    && $response->result->type === 'redirect') {
     // Url on PaymentGate
     $redirectUrl = $response->result->redirectUrl;
     // Payment ID in Unitpay (you can save it)
     $paymentId = $response->result->paymentId;
     // User redirect
-    header("Location: " . $redirectUrl);
+    header("Location: ".$redirectUrl);
 
 // If without redirect (invoice)
 } elseif (isset($response->result->type)
-    && $response->result->type == 'invoice') {
+          && $response->result->type === 'invoice') {
     // Url on receipt page in Unitpay
     $receiptUrl = $response->result->receiptUrl;
     // Payment ID in Unitpay (you can save it)
@@ -57,7 +59,7 @@ if (isset($response->result->type)
     // Invoice Id in Payment Gate (you can save it)
     $invoiceId = $response->result->invoiceId;
     // User redirect
-    header("Location: " . $receiptUrl);
+    header("Location: ".$receiptUrl);
 
 // If error during api request
 } elseif (isset($response->error->message)) {

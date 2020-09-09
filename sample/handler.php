@@ -7,16 +7,18 @@
  * @link http://help.unitpay.money/article/35-confirmation-payment
  */
 
+use UnitPay\UnitPay;
+
 require_once('./orderInfo.php');
-require_once('../UnitPay.php');
+require_once('../vendor/autoload.php');
 
 $unitPay = new UnitPay($domain, $secretKey);
 
 try {
     // Validate request (check ip address, signature and etc)
-    $unitPay->checkHandlerRequest();
+    $unitPay->handleRequest();
 
-    list($method, $params) = array($_GET['method'], $_GET['params']);
+    [$method, $params] = [$_GET['method'], $_GET['params']];
 
     // Very important! Validate request with your order data, before complete order
     if (
