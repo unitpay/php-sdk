@@ -30,7 +30,7 @@ $unitPay = new UnitPay($domain, $secretKey);
  * @link http://help.unitpay.money/article/32-creating-payment-via-api
  * @link http://help.unitpay.money/article/36-codes-payment-systems
  */
-$response = $unitPay->api('initPayment', [
+$response = $unitPay->getAPI()->request('initPayment', [
     'account'     => $orderId,
     'desc'        => $orderDesc,
     'sum'         => $orderSum,
