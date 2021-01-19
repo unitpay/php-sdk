@@ -370,25 +370,25 @@ class UnitPay
     }
 
     /**
-     * Check request on handler from UnitPay
+     * Checks request on handler from Unitpay
      *
-     * @return bool
-     *
-     * @throws InvalidArgumentException
-     * @throws UnexpectedValueException
+     * @param array $data Request data
+     * @return boolean Always `true`
+     * @throws InvalidArgumentException If some request parameter missing or missmatch
+     * @throws UnexpectedValueException If some request parameter has invalid value
      */
-    public function checkHandlerRequest()
+    public function checkHandlerRequest(array $data = array())
     {
         $ip = $this->getIp();
-        if (!isset($_GET['method'])) {
+
+        if (!isset($data['method'])) {
             throw new InvalidArgumentException('Method is null');
         }
-
-        if (!isset($_GET['params'])) {
+        if (!isset($data['params'])) {
             throw new InvalidArgumentException('Params is null');
         }
 
-        list($method, $params) = array($_GET['method'], $_GET['params']);
+        list($method, $params) = array($data['method'], $data['params']);
 
         if (!in_array($method, $this->supportedPartnerMethods)) {
             throw new UnexpectedValueException('Method is not supported');
