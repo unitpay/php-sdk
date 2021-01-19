@@ -377,7 +377,7 @@ class UnitPay
      * @throws InvalidArgumentException If some request parameter missing or missmatch
      * @throws UnexpectedValueException If some request parameter has invalid value
      */
-    public function checkHandlerRequest(array $data = array())
+    public function checkHandlerRequest(array $data)
     {
         $ip = $this->getIp();
 
