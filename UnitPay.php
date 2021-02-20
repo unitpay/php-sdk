@@ -10,7 +10,7 @@
  *
  * @category        UnitPay
  * @package         unitpay/unitpay
- * @version         1.0.0
+ * @version         2.0.3
  * @author          UnitPay
  * @copyright       Copyright (c) 2015 UnitPay
  * @license         http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
@@ -105,7 +105,7 @@ class CashItem
         $paymentMethod = self::PAYMENT_METHOD_PREPAYMENT_FULL
     )
     {
-        $this->name  = $name;
+        $this->name = $name;
         $this->count = $count;
         $this->price = $price;
         $this->nds = $nds;
@@ -169,11 +169,11 @@ class CashItem
  */
 class UnitPay
 {
-    private $supportedCurrencies = array('EUR','UAH', 'BYR', 'USD','RUB');
+    private $supportedCurrencies = array('EUR', 'UAH', 'BYR', 'USD', 'RUB');
     private $supportedUnitpayMethods = array('initPayment', 'getPayment');
     private $requiredUnitpayMethodsParams = array(
         'initPayment' => array('desc', 'account', 'sum'),
-        'getPayment' => array('paymentId')
+        'getPayment'  => array('paymentId')
     );
     private $supportedPartnerMethods = array('check', 'pay', 'error');
     private $supportedUnitpayIp = array(
@@ -202,22 +202,34 @@ class UnitPay
      * Create SHA-256 digital signature
      *
      * @param array $params
-     * @param $method
+     * @param       $method
      *
      * @return string
      */
-    function getSignature(array $params, $method = null)
+    public function getSignature(array $params, $method = null)
     {
+        $params = $this->filterSignatureParameters($params);
+
         ksort($params);
-        unset($params['sign']);
-        unset($params['signature']);
-        array_push($params, $this->secretKey);
+        $params[] = $this->secretKey;
 
         if ($method) {
             array_unshift($params, $method);
         }
 
-        return hash('sha256', join('{up}', $params));
+        return hash('sha256', implode('{up}', $params));
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return array
+     */
+    private function filterSignatureParameters(array $params)
+    {
+        $allowedKeys = array('account', 'desc', 'sum', 'currency');
+
+        return array_intersect_key($params, array_flip($allowedKeys));
     }
 
     /**
@@ -233,12 +245,12 @@ class UnitPay
     /**
      * Get URL for pay through the form
      *
-     * @param string $publicKey
+     * @param string           $publicKey
      * @param string|float|int $sum
-     * @param string $account
-     * @param string $desc
-     * @param string $currency
-     * @param string $locale
+     * @param string           $account
+     * @param string           $desc
+     * @param string           $currency
+     * @param string           $locale
      *
      * @return string
      */
@@ -318,6 +330,7 @@ class UnitPay
      * Set callback URL
      *
      * @param string $backUrl
+     *
      * @return UnitPay
      */
     public function setBackUrl($backUrl)
@@ -329,7 +342,7 @@ class UnitPay
     /**
      * Call API
      *
-     * @param $method
+     * @param       $method
      * @param array $params
      *
      * @return object
@@ -346,7 +359,7 @@ class UnitPay
         if (isset($this->requiredUnitpayMethodsParams[$method])) {
             foreach ($this->requiredUnitpayMethodsParams[$method] as $rParam) {
                 if (!isset($params[$rParam])) {
-                    throw new InvalidArgumentException('Param '.$rParam.' is null');
+                    throw new InvalidArgumentException('Param ' . $rParam . ' is null');
                 }
             }
         }
@@ -356,10 +369,10 @@ class UnitPay
             throw new InvalidArgumentException('SecretKey is null');
         }
 
-        $requestUrl = $this->apiUrl . '?' . http_build_query([
-            'method' => $method,
-            'params' => $params
-        ], null, '&', PHP_QUERY_RFC3986);
+        $requestUrl = $this->apiUrl . '?' . http_build_query(array(
+                'method' => $method,
+                'params' => $params,
+            ), null, '&', PHP_QUERY_RFC3986);
 
         $response = json_decode(file_get_contents($requestUrl));
         if (!is_object($response)) {
@@ -394,7 +407,7 @@ class UnitPay
             throw new UnexpectedValueException('Method is not supported');
         }
 
-        if (!isset($params['signature']) || $params['signature'] != $this->getSignature($params, $method)) {
+        if (!isset($params['signature']) || $params['signature'] !== $this->getSignature($params, $method)) {
             throw new InvalidArgumentException('Wrong signature');
         }
 
