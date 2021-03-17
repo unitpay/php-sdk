@@ -10,7 +10,7 @@
  *
  * @category        UnitPay
  * @package         unitpay/unitpay
- * @version         2.0.3
+ * @version         2.0.4
  * @author          UnitPay
  * @copyright       Copyright (c) 2015 UnitPay
  * @license         http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
@@ -208,9 +208,8 @@ class UnitPay
      */
     public function getSignature(array $params, $method = null)
     {
-        $params = $this->filterSignatureParameters($params);
-
         ksort($params);
+        unset($params['sign'], $params['signature'], $params[PHP_INT_MAX]);
         $params[] = $this->secretKey;
 
         if ($method) {
@@ -218,18 +217,6 @@ class UnitPay
         }
 
         return hash('sha256', implode('{up}', $params));
-    }
-
-    /**
-     * @param array $params
-     *
-     * @return array
-     */
-    private function filterSignatureParameters(array $params)
-    {
-        $allowedKeys = array('account', 'desc', 'sum', 'currency');
-
-        return array_intersect_key($params, array_flip($allowedKeys));
     }
 
     /**
