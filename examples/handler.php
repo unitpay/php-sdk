@@ -3,8 +3,8 @@
 /**
  *  Demo handler for your projects
  *
- * @link http://help.unitpay.ru/article/35-confirmation-payment
- * @link http://help.unitpay.money/article/35-confirmation-payment
+ * @link https://help.unitpay.ru/article/35-confirmation-payment
+ * @link https://help.unitpay.money/article/35-confirmation-payment
  */
 
 require_once('./orderInfo.php');

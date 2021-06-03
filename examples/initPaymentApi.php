@@ -5,8 +5,8 @@ header('Content-Type: text/html; charset=UTF-8');
 /**
  * API integration
  *
- * @link http://help.unitpay.ru/article/32-creating-payment-via-api
- * @link http://help.unitpay.money/article/32-creating-payment-via-api
+ * @link https://help.unitpay.ru/article/32-creating-payment-via-api
+ * @link https://help.unitpay.money/article/32-creating-payment-via-api
  */
 
 require_once('./orderInfo.php');
@@ -22,11 +22,11 @@ $unitPay = new UnitPay($domain, $secretKey);
  * alfaClick:
  *      clientId
  *
- * @link http://help.unitpay.ru/article/32-creating-payment-via-api
- * @link http://help.unitpay.ru/article/36-codes-payment-systems
+ * @link https://help.unitpay.ru/article/32-creating-payment-via-api
+ * @link https://help.unitpay.ru/article/36-codes-payment-systems
  *
- * @link http://help.unitpay.money/article/32-creating-payment-via-api
- * @link http://help.unitpay.money/article/36-codes-payment-systems
+ * @link https://help.unitpay.money/article/32-creating-payment-via-api
+ * @link https://help.unitpay.money/article/36-codes-payment-systems
  */
 $response = $unitPay->api('initPayment', [
     'account' => $orderId,
@@ -39,7 +39,7 @@ $response = $unitPay->api('initPayment', [
 
 // If need user redirect on Payment Gate
 if (isset($response->result->type)
-    && $response->result->type == 'redirect') {
+    && $response->result->type === 'redirect') {
     // Url on PaymentGate
     $redirectUrl = $response->result->redirectUrl;
     // Payment ID in Unitpay (you can save it)
@@ -49,7 +49,7 @@ if (isset($response->result->type)
 
 // If without redirect (invoice)
 } elseif (isset($response->result->type)
-    && $response->result->type == 'invoice') {
+    && $response->result->type === 'invoice') {
     // Url on receipt page in Unitpay
     $receiptUrl = $response->result->receiptUrl;
     // Payment ID in Unitpay (you can save it)

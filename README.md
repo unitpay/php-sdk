@@ -1,10 +1,10 @@
 # UnitPay PHP-SDK
-Php sdk for [UnitPay.ru ](https://unitpay.ru) and [UnitPay.money ](https://unitpay.money)
+Php sdk for [UnitPay.ru](https://unitpay.ru) and [UnitPay.money](https://unitpay.money)
  
 Documentation https://help.unitpay.ru and https://help.unitpay.money
 
 ## Examples ##
-These are just some quick examples. Check out the samples in [`/sample`](https://github.com/unitpay/php-sdk/blob/master/sample).
+These are just some quick examples. Check out the samples in [`/examples`](https://github.com/unitpay/php-sdk/blob/master/examples).
 
 ### Payment integration using UnitPay Form
 ```php
@@ -28,7 +28,7 @@ $orderCurrency  = 'RUB';
 $unitPay = new UnitPay($domain, $secretKey);
 
 $unitPay
-    ->setBackUrl('http://domain.com')
+    ->setBackUrl('https://domain.com')
     ->setCustomerEmail('customer@domain.com')
     ->setCustomerPhone('79001235555')
     ->setCashItems(array(
@@ -202,14 +202,14 @@ Set up `composer.json` in your project directory:
 }
 ```
 
-Run [composer](http://getcomposer.org/doc/00-intro.md#installation):
+Run [composer](https://getcomposer.org/doc/00-intro.md#installation):
 ```sh
 $ php composer.phar install
 ```
 
 ### Direct download
 
-Download [last version ](https://github.com/unitpay/php-sdk/archive/master.zip) , unzip and copy to your project folder.
+Download [latest version](https://github.com/unitpay/php-sdk/archive/master.zip), unzip and copy to your project folder.
 
 ## Contributing ##
 

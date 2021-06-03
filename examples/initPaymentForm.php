@@ -3,8 +3,8 @@
 /**
  * Payment form
  *
- * @link http://help.unitpay.ru/article/31-creating-payment-from-payment-form
- * @link http://help.unitpay.money/article/31-creating-payment-from-payment-form
+ * @link https://help.unitpay.ru/article/31-creating-payment-from-payment-form
+ * @link https://help.unitpay.money/article/31-creating-payment-from-payment-form
  */
 
 require_once('./orderInfo.php');

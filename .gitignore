@@ -1,0 +1,10 @@
+.idea
+.DS_Store
+/vendor/
+composer.lock
+clover.xml
+.php_cs
+.php_cs.cache
+.phpstan.neon
+.phpdoc/*
+phpdoc.xml

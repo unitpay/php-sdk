@@ -5,8 +5,8 @@ header('Content-Type: text/html; charset=UTF-8');
 /**
  * Payment info
  *
- * @link http://help.unitpay.ru/article/58-get-payment
- * @link http://help.unitpay.money/article/58-get-payment
+ * @link https://help.unitpay.ru/article/58-get-payment
+ * @link https://help.unitpay.money/article/58-get-payment
  */
 
 require_once('./orderInfo.php');

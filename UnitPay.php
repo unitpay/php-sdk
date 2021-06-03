@@ -1,24 +1,4 @@
 <?php
-/**
- * UnitPay Payment Module
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- *
- * @category        UnitPay
- * @package         unitpay/unitpay
- * @version         2.0.4
- * @author          UnitPay
- * @copyright       Copyright (c) 2015 UnitPay
- * @license         http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- *
- * EXTENSION INFORMATION
- *
- */
-
 
 /**
  * Value object for paid goods
@@ -169,24 +149,24 @@ class CashItem
  */
 class UnitPay
 {
-    private $supportedCurrencies = array('EUR', 'UAH', 'BYR', 'USD', 'RUB');
-    private $supportedUnitpayMethods = array('initPayment', 'getPayment');
-    private $requiredUnitpayMethodsParams = array(
-        'initPayment' => array('desc', 'account', 'sum'),
-        'getPayment'  => array('paymentId')
-    );
-    private $supportedPartnerMethods = array('check', 'pay', 'error');
-    private $supportedUnitpayIp = array(
+    private $supportedCurrencies = ['EUR', 'UAH', 'BYR', 'USD', 'RUB'];
+    private $supportedUnitpayMethods = ['initPayment', 'getPayment'];
+    private $requiredUnitpayMethodsParams = [
+        'initPayment' => ['desc', 'account', 'sum'],
+        'getPayment'  => ['paymentId'],
+    ];
+    private $supportedPartnerMethods = ['check', 'pay', 'error'];
+    private $supportedUnitpayIp = [
         '31.186.100.49',
         '178.132.203.105',
         '52.29.152.23',
         '52.19.56.234',
         '127.0.0.1' // for debug
-    );
+    ];
 
     private $secretKey;
 
-    private $params = array();
+    private $params = [];
 
     private $apiUrl;
     private $formUrl;
@@ -208,11 +188,11 @@ class UnitPay
      */
     public function getSignature(array $params, $method = null)
     {
+        unset($params['signature']);
         ksort($params);
-        unset($params['sign'], $params['signature'], $params[PHP_INT_MAX]);
         $params[] = $this->secretKey;
 
-        if ($method) {
+        if ($method !== null) {
             array_unshift($params, $method);
         }
 
@@ -243,12 +223,12 @@ class UnitPay
      */
     public function form($publicKey, $sum, $account, $desc, $currency = 'RUB', $locale = 'ru')
     {
-        $vitalParams = array(
+        $vitalParams = [
             'account'  => $account,
             'currency' => $currency,
             'desc'     => $desc,
             'sum'      => $sum
-        );
+        ];
 
         $this->params = array_merge($this->params, $vitalParams);
 
@@ -294,20 +274,20 @@ class UnitPay
      *
      * @return UnitPay
      */
-    public function setCashItems($items)
+    public function setCashItems(array $items)
     {
         $this->params['cashItems'] = base64_encode(
             json_encode(
-                array_map(function ($item) {
-                    /** @var CashItem $item */
-                    return array(
+                /** @var CashItem $item */
+                array_map(static function ($item) {
+                    return [
                         'name'          => $item->getName(),
                         'count'         => $item->getCount(),
                         'price'         => $item->getPrice(),
                         'nds'           => $item->getNds(),
                         'type'          => $item->getType(),
                         'paymentMethod' => $item->getPaymentMethod(),
-                    );
+                    ];
                 }, $items)));
 
         return $this;
@@ -337,9 +317,9 @@ class UnitPay
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    public function api($method, $params = array())
+    public function api($method, array $params = [])
     {
-        if (!in_array($method, $this->supportedUnitpayMethods)) {
+        if (!in_array($method, $this->supportedUnitpayMethods, true)) {
             throw new UnexpectedValueException('Method is not supported');
         }
 
@@ -356,10 +336,10 @@ class UnitPay
             throw new InvalidArgumentException('SecretKey is null');
         }
 
-        $requestUrl = $this->apiUrl . '?' . http_build_query(array(
+        $requestUrl = $this->apiUrl . '?' . http_build_query([
                 'method' => $method,
                 'params' => $params,
-            ), null, '&', PHP_QUERY_RFC3986);
+            ], null, '&', PHP_QUERY_RFC3986);
 
         $response = json_decode(file_get_contents($requestUrl));
         if (!is_object($response)) {
@@ -388,9 +368,9 @@ class UnitPay
             throw new InvalidArgumentException('Params is null');
         }
 
-        list($method, $params) = array($_GET['method'], $_GET['params']);
+        list($method, $params) = [$_GET['method'], $_GET['params']];
 
-        if (!in_array($method, $this->supportedPartnerMethods)) {
+        if (!in_array($method, $this->supportedPartnerMethods, true)) {
             throw new UnexpectedValueException('Method is not supported');
         }
 
@@ -400,8 +380,8 @@ class UnitPay
 
         /**
          * IP address check
-         * @link http://help.unitpay.ru/article/67-ip-addresses
-         * @link http://help.unitpay.money/article/67-ip-addresses
+         * @link https://help.unitpay.ru/article/67-ip-addresses
+         * @link https://help.unitpay.money/article/67-ip-addresses
          */
         if (!in_array($ip, $this->supportedUnitpayIp)) {
             throw new InvalidArgumentException('IP address Error');
@@ -419,11 +399,7 @@ class UnitPay
      */
     public function getSuccessHandlerResponse($message)
     {
-        return json_encode(array(
-            "result" => array(
-                "message" => $message
-            )
-        ));
+        return json_encode(['result' => ['message' => $message]]);
     }
 
     /**
@@ -435,10 +411,6 @@ class UnitPay
      */
     public function getErrorHandlerResponse($message)
     {
-        return json_encode(array(
-            "error" => array(
-                "message" => $message
-            )
-        ));
+        return json_encode(['error' => ['message' => $message]]);
     }
 }
