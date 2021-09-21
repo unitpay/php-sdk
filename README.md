@@ -1,18 +1,22 @@
 # UnitPay PHP-SDK
-Php sdk for [UnitPay.ru](https://unitpay.ru) and [UnitPay.money](https://unitpay.money)
- 
-Documentation https://help.unitpay.ru and https://help.unitpay.money
+
+Php sdk for [UnitPay.ru](https://unitpay.ru).
+
+Documentation https://help.unitpay.ru
 
 ## Examples ##
-These are just some quick examples. Check out the samples in [`/examples`](https://github.com/unitpay/php-sdk/blob/master/examples).
+
+These are just some quick examples. Check out the samples
+in [`/examples`](https://github.com/unitpay/php-sdk/blob/master/examples).
 
 ### Payment integration using UnitPay Form
+
 ```php
 <?php
 include ('../UnitPay.php');
 
 // Project Data
-$domain = 'unitpay.money'; // Your working domain: unitpay.money or unitpay.ru
+$domain = 'unitpay.ru'; // Your working domain
 $secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
 $publicId   = '15155-ae12d';
 
@@ -56,14 +60,13 @@ header('Content-Type: text/html; charset=UTF-8');
 /**
  * API integration
  *
- * @link https://help.unitpay.ru/article/32-creating-payment-via-api
- * @link https://help.unitpay.money/article/32-creating-payment-via-api
+ * @link https://help.unitpay.ru/payments/create-payment
  */
 
 include ('../UnitPay.php');
 
 // Project Data
-$domain = 'unitpay.money'; // Your working domain: unitpay.money or unitpay.ru
+$domain = 'unitpay.ru'; // Your working domain
 $projectId  = 1;
 $secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
 
@@ -86,8 +89,7 @@ $unitPay = new UnitPay($domain, $secretKey);
  * alfaClick:
  *      clientId
  *
- * @link https://help.unitpay.ru/article/32-creating-payment-via-api
- * @link https://help.unitpay.money/article/32-creating-payment-via-api
+ * @link https://help.unitpay.ru/payments/create-payment
  */
 $response = $unitPay->api('initPayment', [
     'account'     => $orderId,
@@ -139,7 +141,7 @@ if (isset($response->result->type)
 include ('../UnitPay.php');
 
 // Project Data
-$domain = 'unitpay.money'; // Your working domain: unitpay.money or unitpay.ru
+$domain = 'unitpay.ru'; // Your working domain
 $projectId  = 1;
 $secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
 

@@ -5,8 +5,7 @@ header('Content-Type: text/html; charset=UTF-8');
 /**
  * API integration
  *
- * @link https://help.unitpay.ru/article/32-creating-payment-via-api
- * @link https://help.unitpay.money/article/32-creating-payment-via-api
+ * @link https://help.unitpay.ru/payments/create-payment
  */
 
 require_once('./orderInfo.php');
@@ -22,11 +21,8 @@ $unitPay = new UnitPay($domain, $secretKey);
  * alfaClick:
  *      clientId
  *
- * @link https://help.unitpay.ru/article/32-creating-payment-via-api
- * @link https://help.unitpay.ru/article/36-codes-payment-systems
- *
- * @link https://help.unitpay.money/article/32-creating-payment-via-api
- * @link https://help.unitpay.money/article/36-codes-payment-systems
+ * @link https://help.unitpay.ru/payments/create-payment
+ * @link https://help.unitpay.ru/book-of-reference/payment-system-codes
  */
 $response = $unitPay->api('initPayment', [
     'account' => $orderId,

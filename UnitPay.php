@@ -380,8 +380,7 @@ class UnitPay
 
         /**
          * IP address check
-         * @link https://help.unitpay.ru/article/67-ip-addresses
-         * @link https://help.unitpay.money/article/67-ip-addresses
+         * @link https://help.unitpay.ru/book-of-reference/ip-addresses
          */
         if (!in_array($ip, $this->supportedUnitpayIp)) {
             throw new InvalidArgumentException('IP address Error');
