@@ -1,6 +1,6 @@
-# UnitPay PHP-SDK
+# Unitpay PHP SDK
 
-Php sdk for [UnitPay.ru](https://unitpay.ru).
+PHP SDK for [Unitpay.ru](https://unitpay.ru).
 
 Documentation https://help.unitpay.ru
 
@@ -9,7 +9,7 @@ Documentation https://help.unitpay.ru
 These are just some quick examples. Check out the samples
 in [`/examples`](https://github.com/unitpay/php-sdk/blob/master/examples).
 
-### Payment integration using UnitPay Form
+### Payment integration using Unitpay form
 
 ```php
 <?php
@@ -29,17 +29,17 @@ $orderSum       = 900;
 $orderDesc      = 'Payment for item "' . $itemName . '"';
 $orderCurrency  = 'RUB';
 
-$unitPay = new UnitPay($domain, $secretKey);
+$unitpay = new UnitPay($domain, $secretKey);
 
-$unitPay
+$unitpay
     ->setBackUrl('https://domain.com')
     ->setCustomerEmail('customer@domain.com')
     ->setCustomerPhone('79001235555')
-    ->setCashItems(array(
+    ->setCashItems([
        new CashItem($itemName, 1, $orderSum) 
-    ));
+    ]);
 
-$redirectUrl = $unitPay->form(
+$redirectUrl = $unitpay->form(
     $publicId,
     $orderSum,
     $orderId,
@@ -50,7 +50,7 @@ $redirectUrl = $unitPay->form(
 header("Location: " . $redirectUrl);
 ```
 
-### Payment integration using UnitPay Api
+### Payment integration using Unitpay API
 
 ```php
 <?php
@@ -79,7 +79,7 @@ $orderSum       = 900;
 $orderDesc      = 'Payment for item "'.$itemName.'"';
 $orderCurrency  = 'RUB';
 
-$unitPay = new UnitPay($domain, $secretKey);
+$unitpay = new UnitPay($domain, $secretKey);
 
 /**
  * Base params: account, desc, sum, currency, projectId, paymentType
@@ -91,7 +91,7 @@ $unitPay = new UnitPay($domain, $secretKey);
  *
  * @link https://help.unitpay.ru/payments/create-payment
  */
-$response = $unitPay->api('initPayment', [
+$response = $unitpay->api('initPayment', [
     'account'     => $orderId,
     'desc'        => $orderDesc,
     'sum'         => $orderSum,
@@ -154,13 +154,13 @@ $orderSum       = 900;
 $orderDesc      = 'Payment for item "' . $itemName . '"';
 $orderCurrency  = 'RUB';
 
-$unitPay = new UnitPay($domain, $secretKey);
+$unitpay = new UnitPay($domain, $secretKey);
 
 try {
     // Validate request (check ip address, signature and etc)
-    $unitPay->checkHandlerRequest();
+    $unitpay->checkHandlerRequest();
 
-    list($method, $params) = array($_GET['method'], $_GET['params']);
+    list($method, $params) = [$_GET['method'], $_GET['params']];
 
     // Very important! Validate request with your order data, before complete order
     if (
@@ -175,22 +175,22 @@ try {
     switch ($method) {
         // Just check order (check server status, check order in DB and etc)
         case 'check':
-            echo $unitPay->getSuccessHandlerResponse('Check Success. Ready to pay.');
+            echo $unitpay->getSuccessHandlerResponse('Check Success. Ready to pay.');
             break;
         // Method Pay means that the money received
         case 'pay':
             // Please complete order
-            echo $unitPay->getSuccessHandlerResponse('Pay Success');
+            echo $unitpay->getSuccessHandlerResponse('Pay Success');
             break;
         // Method Error means that an error has occurred.
         case 'error':
             // Please log error text.
-            echo $unitPay->getSuccessHandlerResponse('Error logged');
+            echo $unitpay->getSuccessHandlerResponse('Error logged');
             break;
     }
 // Oops! Something went wrong.
 } catch (Exception $e) {
-    echo $unitPay->getErrorHandlerResponse($e->getMessage());
+    echo $unitpay->getErrorHandlerResponse($e->getMessage());
 }
 ```
 
