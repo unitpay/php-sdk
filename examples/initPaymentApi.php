@@ -11,7 +11,7 @@ header('Content-Type: text/html; charset=UTF-8');
 require_once('./orderInfo.php');
 require_once('../UnitPay.php');
 
-$unitPay = new UnitPay($domain, $secretKey);
+$unitpay = new UnitPay($domain, $secretKey);
 
 /**
  * Base params: account, desc, sum, currency, projectId, paymentType
@@ -24,7 +24,7 @@ $unitPay = new UnitPay($domain, $secretKey);
  * @link https://help.unitpay.ru/payments/create-payment
  * @link https://help.unitpay.ru/book-of-reference/payment-system-codes
  */
-$response = $unitPay->api('initPayment', [
+$response = $unitpay->api('initPayment', [
     'account' => $orderId,
     'desc' => $orderDesc,
     'sum' => $orderSum,

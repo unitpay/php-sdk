@@ -1,7 +1,7 @@
 {
   "name":"unitpay/php-sdk",
   "type": "library",
-  "description": "PHP SDK for UnitPay",
+  "description": "PHP SDK for Unitpay",
   "keywords": ["unitpay", "payment processing", "payment service"],
   "homepage": "https://unitpay.ru",
   "license": "MIT",

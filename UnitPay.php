@@ -3,7 +3,7 @@
 /**
  * Value object for paid goods
  */
-class CashItem
+final class CashItem
 {
     const NDS_NONE = 'none';
     const NDS_0 = 'vat0';
@@ -57,21 +57,16 @@ class CashItem
     const PAYMENT_METHOD_PAYMENT_FULL = 'full_payment';
 
     private $name;
-
     private $count;
-
     private $price;
-
     private $nds;
-
     private $type;
-
     private $paymentMethod;
 
     /**
      * @param string $name
-     * @param int    $count
-     * @param float  $price
+     * @param int $count
+     * @param float $price
      * @param string $nds
      * @param string $type
      * @param string $paymentMethod
@@ -143,13 +138,10 @@ class CashItem
 }
 
 /**
- * Payment method UnitPay process
- *
- * @author      UnitPay <support@unitpay.ru>
+ * Payment method Unitpay process
  */
 class UnitPay
 {
-    private $supportedCurrencies = ['EUR', 'UAH', 'BYR', 'USD', 'RUB'];
     private $supportedUnitpayMethods = ['initPayment', 'getPayment'];
     private $requiredUnitpayMethodsParams = [
         'initPayment' => ['desc', 'account', 'sum'],
@@ -165,9 +157,7 @@ class UnitPay
     ];
 
     private $secretKey;
-
     private $params = [];
-
     private $apiUrl;
     private $formUrl;
 
@@ -180,10 +170,8 @@ class UnitPay
 
     /**
      * Create SHA-256 digital signature
-     *
      * @param array $params
-     * @param       $method
-     *
+     * @param string|null $method
      * @return string
      */
     public function getSignature(array $params, $method = null)
@@ -201,7 +189,6 @@ class UnitPay
 
     /**
      * Return IP address
-     *
      * @return string
      */
     protected function getIp()
@@ -211,14 +198,12 @@ class UnitPay
 
     /**
      * Get URL for pay through the form
-     *
-     * @param string           $publicKey
+     * @param string $publicKey
      * @param string|float|int $sum
-     * @param string           $account
-     * @param string           $desc
-     * @param string           $currency
-     * @param string           $locale
-     *
+     * @param string $account
+     * @param string $desc
+     * @param string $currency
+     * @param string $locale
      * @return string
      */
     public function form($publicKey, $sum, $account, $desc, $currency = 'RUB', $locale = 'ru')
@@ -229,24 +214,18 @@ class UnitPay
             'desc'     => $desc,
             'sum'      => $sum
         ];
-
         $this->params = array_merge($this->params, $vitalParams);
-
         if ($this->secretKey) {
             $this->params['signature'] = $this->getSignature($vitalParams);
         }
-
         $this->params['locale'] = $locale;
-
         return $this->formUrl . $publicKey . '?' . http_build_query($this->params);
     }
 
     /**
      * Set customer email
-     *
      * @param string $email
-     *
-     * @return UnitPay
+     * @return $this
      */
     public function setCustomerEmail($email)
     {
@@ -256,10 +235,8 @@ class UnitPay
 
     /**
      * Set customer phone number
-     *
      * @param string $phone
-     *
-     * @return UnitPay
+     * @return $this
      */
     public function setCustomerPhone($phone)
     {
@@ -269,10 +246,8 @@ class UnitPay
 
     /**
      * Set list of paid goods
-     *
      * @param CashItem[] $items
-     *
-     * @return UnitPay
+     * @return $this
      */
     public function setCashItems(array $items)
     {
@@ -295,10 +270,8 @@ class UnitPay
 
     /**
      * Set callback URL
-     *
      * @param string $backUrl
-     *
-     * @return UnitPay
+     * @return $this
      */
     public function setBackUrl($backUrl)
     {
@@ -308,10 +281,8 @@ class UnitPay
 
     /**
      * Call API
-     *
-     * @param       $method
+     * @param string $method
      * @param array $params
-     *
      * @return object
      *
      * @throws InvalidArgumentException
@@ -350,8 +321,7 @@ class UnitPay
     }
 
     /**
-     * Check request on handler from UnitPay
-     *
+     * Check request on handler from Unitpay
      * @return bool
      *
      * @throws InvalidArgumentException
@@ -382,18 +352,15 @@ class UnitPay
          * IP address check
          * @link https://help.unitpay.ru/book-of-reference/ip-addresses
          */
-        if (!in_array($ip, $this->supportedUnitpayIp)) {
+        if (!in_array($ip, $this->supportedUnitpayIp, true)) {
             throw new InvalidArgumentException('IP address Error');
         }
-
         return true;
     }
 
     /**
-     * Response for UnitPay if handle success
-     *
-     * @param $message
-     *
+     * Response for Unitpay if handle success
+     * @param string $message
      * @return string
      */
     public function getSuccessHandlerResponse($message)
@@ -402,10 +369,8 @@ class UnitPay
     }
 
     /**
-     * Response for UnitPay if handle error
-     *
-     * @param $message
-     *
+     * Response for Unitpay if handle error
+     * @param string $message
      * @return string
      */
     public function getErrorHandlerResponse($message)

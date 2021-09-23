@@ -11,9 +11,9 @@ header('Content-Type: text/html; charset=UTF-8');
 require_once('./orderInfo.php');
 require_once('../UnitPay.php');
 
-$unitPay = new UnitPay($domain, $secretKey);
+$unitpay = new UnitPay($domain, $secretKey);
 
-$response = $unitPay->api('getPayment', [
+$response = $unitpay->api('getPayment', [
     'paymentId' => 3403575
 ]);
 

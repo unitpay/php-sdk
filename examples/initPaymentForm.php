@@ -9,9 +9,9 @@
 require_once('./orderInfo.php');
 require_once('../UnitPay.php');
 
-$unitPay = new UnitPay($domain, $secretKey);
+$unitpay = new UnitPay($domain, $secretKey);
 
-$redirectUrl = $unitPay->form(
+$redirectUrl = $unitpay->form(
     $publicId,
     $orderSum,
     $orderId,
