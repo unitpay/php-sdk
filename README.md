@@ -16,8 +16,8 @@ in [`/examples`](https://github.com/unitpay/php-sdk/blob/master/examples).
 include ('../UnitPay.php');
 
 // Project Data
-$domain = 'unitpay.ru'; // Your working domain
-$secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
+$domain = 'unitpay.ru';// Your working domain: unitpay.ru or address provided by unitpay support service
+$secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';// Project secret key
 $publicId   = '15155-ae12d';
 
 // My item Info
