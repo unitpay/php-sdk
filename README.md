@@ -66,9 +66,9 @@ header('Content-Type: text/html; charset=UTF-8');
 include ('../UnitPay.php');
 
 // Project Data
-$domain = 'unitpay.ru'; // Your working domain
+$domain = 'unitpay.ru';// Your working domain: unitpay.ru or address provided by unitpay support service
 $projectId  = 1;
-$secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
+$secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';// Project secret key
 
 // My item Info
 $itemName = 'Iphone 6 Skin Cover';
@@ -141,9 +141,9 @@ if (isset($response->result->type)
 include ('../UnitPay.php');
 
 // Project Data
-$domain = 'unitpay.ru'; // Your working domain
+$domain = 'unitpay.ru';// Your working domain: unitpay.ru or address provided by unitpay support service
 $projectId  = 1;
-$secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';
+$secretKey  = '9e977d0c0e1bc8f5cc9775a8cc8744f1';// Project secret key
 
 // My item Info
 $itemName = 'Iphone 6 Skin Cover';
