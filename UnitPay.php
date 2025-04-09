@@ -309,7 +309,7 @@ class UnitPay
         $requestUrl = $this->apiUrl . '?' . http_build_query([
                 'method' => $method,
                 'params' => $params,
-            ], null, '&', PHP_QUERY_RFC3986);
+            ], "", '&', PHP_QUERY_RFC3986);
 
         $response = json_decode(file_get_contents($requestUrl));
         if (!is_object($response)) {
